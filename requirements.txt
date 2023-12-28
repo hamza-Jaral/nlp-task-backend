@@ -1,0 +1,11 @@
+fastapi==0.108.0
+uvicorn==0.25.0
+langchain==0.0.343
+pydantic==2.5.2
+python-dotenv==1.0.0
+openai==1.6.1
+chromadb==0.4.21
+langchainhub==0.1.14
+jq==1.6.0
+tiktoken==0.5.2
+python-multipart==0.0.6
