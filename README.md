@@ -30,6 +30,9 @@ This document provides instructions on setting up and using the FastAPI-based AP
      pip install -r requirements.txt
      ```
 
+5. **Create .env file:**
+   - Create a `.env` file in the project root based on the provided `env.example` file. This file should contain any necessary environment variables.
+
 ## Running the API Server
 
 1. **Run the FastAPI Server:**
