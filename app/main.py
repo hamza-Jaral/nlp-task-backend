@@ -5,7 +5,8 @@ import os
 import traceback
 
 import dotenv
-from fastapi import FastAPI, HTTPException, File, UploadFile
+from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from .qa_manager import DataIndexer, QAManager
@@ -14,6 +15,19 @@ from .qa_manager import DataIndexer, QAManager
 dotenv.load_dotenv()
 
 app = FastAPI(title="nlp-task")
+
+origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class Query(BaseModel):
