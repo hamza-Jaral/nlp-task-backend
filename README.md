@@ -46,6 +46,27 @@ This document provides instructions on setting up and using the FastAPI-based AP
    - Open your browser and go to [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
    - This will open the FastAPI Swagger UI, providing an interactive interface for exploring and testing the API endpoints.
 
+## Running the API Server with Docker Compose
+
+1. **Build and Run Docker Containers:**
+   - Execute the following command to build the Docker image and start the FastAPI server along with any required services defined in the `docker-compose.yml` file.
+     ```bash
+     docker-compose up --build -d
+     ```
+   - The `--build` flag ensures that the Docker images are rebuilt, and the `-d` flag runs the services in the background.
+
+2. **Access API Documentation:**
+   - Open your browser and go to [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+   - This will open the FastAPI Swagger UI, providing an interactive interface for exploring and testing the API endpoints.
+
+3. **Stopping Docker Compose:**
+   - To stop the running containers, use the following command:
+     ```bash
+     docker-compose down
+     ```
+   - This will stop and remove the containers defined in the `docker-compose.yml` file.
+
+
 ## API Endpoints
 
 ### 1. Process CSV File
