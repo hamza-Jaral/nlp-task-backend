@@ -6,6 +6,8 @@ from langchain.schema import StrOutputParser
 from langchain.vectorstores import Chroma
 from langchain_core.runnables import RunnablePassthrough
 from langchain.document_loaders import JSONLoader
+from langchain.chains.summarize import load_summarize_chain
+
 
 
 class QAManager:
@@ -68,3 +70,12 @@ class DataIndexer:
             embedding=emb,
             persist_directory="./chroma_db"
         )
+
+
+class Summarizer:
+    def __init__(self):
+        self.llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
+        self.chain = load_summarize_chain(self.llm, chain_type="stuff")
+
+    def load_docs(self, document):
+        pass
