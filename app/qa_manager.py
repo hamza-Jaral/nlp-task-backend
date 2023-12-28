@@ -9,7 +9,6 @@ from langchain.document_loaders import JSONLoader
 from langchain.chains.summarize import load_summarize_chain
 
 
-
 class QAManager:
 
     def __init__(self):

@@ -42,6 +42,10 @@ def process_csv_data(contents: str):
     # Using CSV reader to parse the input contents
     reader = csv.DictReader(io.StringIO(contents))
 
+    required_columns = ['pagenum', 'doc_name', 'text']
+    if not all(col in reader.fieldnames for col in required_columns):
+        raise ValueError("CSV file has the wrong format. Missing required columns.")
+
     for row in reader:
         pagenum = int(row['pagenum'])
         doc_name = row['doc_name']
@@ -60,16 +64,15 @@ def process_csv_data(contents: str):
             # If the entry doesn't exist, add a new entry to the list
             doc_dict[doc_name].append({"doc_name": doc_name, 'pagenum': pagenum, 'text': text})
 
-        os.makedirs(data_folder, exist_ok=True)
+    os.makedirs(data_folder, exist_ok=True)
+    for doc_name, content in doc_dict.items():
+        file_path = os.path.join(data_folder, f"{doc_name}.json")
+        with open(file_path, 'w') as f:
+            doc_dict = {"document": content}
+            json.dump(doc_dict, f, indent=4)
+            file_paths.append(file_path)
 
-        for doc_name, content in doc_dict.items():
-            file_path = os.path.join(data_folder, f"{doc_name}.json")
-            with open(file_path, 'w') as f:
-                doc_dict = {"document": content}
-                json.dump(doc_dict, f, indent=4)
-                file_paths.append(file_path)
-
-        return file_paths
+    return file_paths
 
 
 @app.get("/")
@@ -79,6 +82,19 @@ def read_root():
 
 @app.post("/process_csv")
 async def process_csv(file: UploadFile):
+    """
+        Process CSV File and Create Embeddings
+
+        Parameters:
+        - file (UploadFile): CSV file containing data to be processed.
+
+        Returns:
+        - str: a message indicating the success or error description in case of server side error
+
+        This endpoint takes an uploaded CSV file, processes the data within, and generates embeddings.
+        The CSV file should have the required columns (e.g., 'pagenum', 'doc_name', 'text').
+        """
+
     try:
         # Read the CSV file
         contents = await file.read()
@@ -97,6 +113,27 @@ async def process_csv(file: UploadFile):
 
 @app.post("/qa")
 def question_answering(query: Query):
+    """
+        Question Answering Endpoint
+
+        Parameters:
+        - query (Query): An object containing the user's query.
+
+        Returns:
+        - dict: A dictionary containing the response to the user's query.
+
+        This endpoint takes a user's question, processes it using a Question Answering Manager,
+        and returns the response. It utilizes a QAManager class to handle the question and generate an answer.
+
+        Example Usage:
+        ```
+        import httpx
+
+        query = {"query": "What is the capital of France?"}
+        response = httpx.post("http://your-api-endpoint/qa", json=query)
+        print(response.json())
+        ```
+        """
     try:
         question = query.query
         qa_chain = QAManager()
