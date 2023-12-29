@@ -2,6 +2,36 @@
 
 This document provides instructions on setting up and using the FastAPI-based API endpoints for processing CSV files and performing question answering.
 
+## Data Engineering
+
+### Raw Data
+The raw data is sourced from the `text_segments.csv` file, containing information about document segments including `pagenum`, `docname`, and `text`.
+
+### Data Engineering Process
+1. **Text Aggregation:** Combine text segments from the same page of the same document to enhance document coherency.
+2. **JSON Serialization:** Serialize aggregated text segments into JSON files, one for each unique document, to preserve metadata.
+
+## Challenges Faced
+
+1. **Consistency in Document Processing:** Ensuring uniformity in document structure to facilitate effective embedding for question-answering.
+2. **Document File Format Selection:** Choosing between file formats; JSON was selected for metadata retention.
+
+## Proposed Improvements
+
+1. **Custom Prompts for QA:** Enhance question-answering with custom prompts for more polite and nuanced responses.
+
+2. **Guardrails Implementation:** Strengthen input validation and error handling mechanisms.
+
+3. **Chat History Integration:** Enable continuous conversations by adding support for chat history.
+
+4. **User-Specific Document Support:** Allow users to upload and analyze their own documents.
+
+## Project Structure
+
+- `app/`: Contains the FastAPI application code.
+- `data/`: Holds processed data, including serialized JSON files.
+
+
 ## Prerequisites
 
 1. **Python Environment:**
